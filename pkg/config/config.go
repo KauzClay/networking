@@ -25,6 +25,7 @@ import (
 	"strings"
 	"text/template"
 
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/utils/lru"
 	cm "knative.dev/pkg/configmap"
@@ -352,6 +353,11 @@ func NewConfigFromMap(data map[string]string) (*Config, error) {
 	}
 
 	return nc, nil
+}
+
+// NewConfigFromConfigMap creates a Config from the supplied ConfigMap
+func NewConfigFromConfigMap(configMap *corev1.ConfigMap) (*Config, error) {
+	return NewConfigFromMap(configMap.Data)
 }
 
 // GetDomainTemplate returns the golang Template from the config map
